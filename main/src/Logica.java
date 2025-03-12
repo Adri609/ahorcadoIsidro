@@ -10,7 +10,28 @@ public class Logica {
     private static StringBuilder progresoPalabra;
     private static int intentos = 6;
     private static HashSet<Character> letrasUsadas = new HashSet<>(); // Inicializamos el HashSet
+    private static Scanner read = new Scanner(System.in);
 
+    public Logica (String dificultad) {
+        elegirDificultad(dificultad);
+        iniciarpartida();
+    }
+
+    private void elegirDificultad (String dificultad) {
+        int nivel = read.nextInt();
+
+        switch (nivel) {
+            case 1 -> facil;
+            break;
+            case 2 -> normal;
+            break;
+            case 3 -> dificil;
+            break;
+            default:
+            System.out.println("Opción incorrecta");
+        }
+    }
+    
     // Función para probar una letra
     public static boolean probarLetra(char letra) {
         if (letrasUsadas.contains(letra)) { // Comprueba si la letra ya fue usada
@@ -41,7 +62,6 @@ public class Logica {
     public static void main(String[] args) {
         
         ArrayList<String> marcas = new ArrayList<>();
-        Scanner read = new Scanner(System.in);
         
         // Añadimos palabras al ArrayList
         Collections.addAll(marcas, 
