@@ -3,7 +3,7 @@ import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Logica {
+public class Juego {
 
     // Declaro los atributos fuera del main para poder utilizarlos en varias funciones
     private static String palabra;
@@ -76,18 +76,18 @@ public class Logica {
             System.out.print("Opción: ");
             nivel = read.nextInt();
 
-            while (!read.hasNextInt()) {
-                System.out.println("Por favor, elige una opción válida.");
+            if (nivel > 1 || nivel < 3) {
+                System.out.println("Por favor, elige una opción válida");
                 read.next();
             }
 
-        } while (nivel < 1 || nivel > 3);
+            switch (nivel) {
+                case 1 -> Juego.intentos = 8;
+                case 2 -> Juego.intentos = 6;
+                case 3 -> Juego.intentos = 3;
+            }
 
-        switch (nivel) {
-            case 1 -> Logica.intentos = 8;
-            case 2 -> Logica.intentos = 6;
-            case 3 -> Logica.intentos = 3;
-        }
+        } while (nivel < 1 || nivel > 3);
 
         // Mostramos el progreso inicial
         System.out.println("Palabra a adivinar: " + progresoPalabra);
