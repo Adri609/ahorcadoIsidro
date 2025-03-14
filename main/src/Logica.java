@@ -11,64 +11,9 @@ public class Logica {
     private static int intentos;
     private static HashSet<Character> letrasUsadas = new HashSet<>(); // Inicializamos el HashSet
     private static Scanner read = new Scanner(System.in);
-    private static int nivel = 0;
+    private static int nivel;
     private static ArrayList<String> marcas = new ArrayList<>();
 
-    public Logica (String dificultad) {
-        elegirDificultad();
-        iniciarPartida();
-    }
-
-    private void elegirDificultad() {
-        do {
-            System.out.println("Elige una dificultad:");
-            System.out.println();
-            System.out.println("1- Fácil");
-            System.out.println("2- Normal");
-            System.out.println("3- Difícil");
-            System.out.print("Opción: ");
-            nivel = read.nextInt();
-
-            if (nivel < 1 || nivel > 3) {
-                System.out.println("Opción incorrecta, elige una opción válida.");
-            }
-        } while (nivel < 1 || nivel > 3);
-
-        if (nivel == 1){
-            this.intentos = 8;
-        } else if (nivel == 2) {
-            this.intentos = 6;
-        } else {
-            this.intentos = 3;
-        }
-    }
-
-    // Función para iniciar la palabra para la partida
-    private void iniciarPartida () {
-
-        // Añadimos palabras al ArrayList
-        Collections.addAll(marcas, 
-            "Abarth", "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti", 
-            "Buick", "Cadillac", "Changan", "Chevrolet", "Chrysler", "Citroën", "Cupra", "Dacia", 
-            "Daewoo", "Daihatsu", "Dodge", "DS Automobiles", "Ferrari", "Fiat", "Fisker", "Ford", 
-            "GAC", "Geely", "Genesis", "GMC", "GreatWall", "Haval", "Honda", "Hummer", "Hyundai", 
-            "Infiniti", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Koenigsegg", "Lada", "Lamborghini", 
-            "Lancia", "LandRover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
-            "McLaren", "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Pagani", "Peugeot", 
-            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "RollsRoyce", "Rover", 
-            "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
-            "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
-        );
-
-        // Se selecciona una palabra aleatoria del array
-        palabra = marcas.get((int) (Math.random() * marcas.size()));
-
-        // Paso la palabra a minúscula
-        palabra = palabra.toLowerCase();
-
-        // Reemplazamos la palabra por guiones bajos y la guardamos en el StringBuilder
-        progresoPalabra = new StringBuilder("_".repeat(palabra.length()));
-    }
     
     // Función para probar una letra
     public static boolean probarLetra(char letra) {
@@ -98,7 +43,51 @@ public class Logica {
     }
 
     public static void main(String[] args) {
-        
+    
+        // Añadimos palabras al ArrayList
+        Collections.addAll(marcas, 
+            "Abarth", "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti", 
+            "Buick", "Cadillac", "Changan", "Chevrolet", "Chrysler", "Citroën", "Cupra", "Dacia", 
+            "Daewoo", "Daihatsu", "Dodge", "DS Automobiles", "Ferrari", "Fiat", "Fisker", "Ford", 
+            "GAC", "Geely", "Genesis", "GMC", "GreatWall", "Haval", "Honda", "Hummer", "Hyundai", 
+            "Infiniti", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Koenigsegg", "Lada", "Lamborghini", 
+            "Lancia", "LandRover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
+            "McLaren", "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Pagani", "Peugeot", 
+            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "RollsRoyce", "Rover", 
+            "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
+            "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
+        );
+
+        // Se selecciona una palabra aleatoria del array
+        palabra = marcas.get((int) (Math.random() * marcas.size()));
+
+        // Paso la palabra a minúscula
+        palabra = palabra.toLowerCase();
+
+        // Reemplazamos la palabra por guiones bajos y la guardamos en el StringBuilder
+        progresoPalabra = new StringBuilder("_".repeat(palabra.length()));
+
+        do {
+            System.out.println("Elige una dificultad:");
+            System.out.println();
+            System.out.println("1- Fácil");
+            System.out.println("2- Normal");
+            System.out.println("3- Difícil");
+            System.out.print("Opción: ");
+            nivel = read.nextInt();
+
+            while (!read.hasNextInt()) {
+                System.out.println("Por favor, elige una opción válida.");
+                read.next();
+            }
+
+        } while (nivel < 1 || nivel > 3);
+
+        switch (nivel) {
+            case 1 -> Logica.intentos = 8;
+            case 2 -> Logica.intentos = 6;
+            case 3 -> Logica.intentos = 3;
+        }
 
         // Mostramos el progreso inicial
         System.out.println("Palabra a adivinar: " + progresoPalabra);
