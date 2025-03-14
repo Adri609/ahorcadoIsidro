@@ -51,9 +51,9 @@ public class Juego {
             "Daewoo", "Daihatsu", "Dodge", "DS Automobiles", "Ferrari", "Fiat", "Fisker", "Ford", 
             "GAC", "Geely", "Genesis", "GMC", "GreatWall", "Haval", "Honda", "Hummer", "Hyundai", 
             "Infiniti", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Koenigsegg", "Lada", "Lamborghini", 
-            "Lancia", "LandRover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
+            "Lancia", "Land Rover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
             "McLaren", "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Pagani", "Peugeot", 
-            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "RollsRoyce", "Rover", 
+            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "Rolls Royce", "Rover", 
             "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
             "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
         );
@@ -78,7 +78,6 @@ public class Juego {
 
             if (nivel > 1 || nivel < 3) {
                 System.out.println("Por favor, elige una opción válida");
-                read.next();
             }
 
             switch (nivel) {
