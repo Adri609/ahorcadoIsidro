@@ -9,7 +9,7 @@ public class Juego {
     private static String palabra;
     private static StringBuilder progresoPalabra;
     private static int intentos;
-    private static HashSet<Character> letrasUsadas = new HashSet<>(); // Inicializamos el HashSet
+    private static HashSet<Character> letrasUsadas = new HashSet<>(); // Se inicia el HashSet
     private static Scanner read = new Scanner(System.in);
     private static int nivel;
     private static ArrayList<String> marcas = new ArrayList<>();
@@ -22,29 +22,29 @@ public class Juego {
             return false; 
         }
 
-        // Añadimos la letra utilizada al array
+        // Se añade la letra utilizada al array
         letrasUsadas.add(letra);
         boolean aciertos = false;
 
         // Se recorre la palabra para ver si la letra está en la palabra oculta
         for (int i = 0; i < palabra.length(); i++) {
             if (palabra.charAt(i) == letra) {
-                progresoPalabra.setCharAt(i, letra);
-                aciertos = true;
+                progresoPalabra.setCharAt(i, letra); // Si la letra está en la palabra se sustituye la letra de la posición en la que coincida con la letra introducida
+                aciertos = true; // En caso de acierto no se restan intentos
             }
         }
 
-        // Si no se ha acertado, se reduce el número de intentos
+        // Se reduce el núemero de intentos en caso de que se falle la letra
         if (!aciertos) {
             intentos--;
         }
 
-        return aciertos; // Devolvemos si la letra es correcta o no
+        return aciertos;
     }
 
     public static void main(String[] args) {
     
-        // Añadimos palabras al ArrayList
+        // Añadimos palabras al ArrayList utilizando Collections para añadirlo todo a la vez y no poner 40 líneas de .add
         Collections.addAll(marcas, 
             "Abarth", "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti", 
             "Buick", "Cadillac", "Changan", "Chevrolet", "Chrysler", "Citroën", "Cupra", "Dacia", 
@@ -67,6 +67,7 @@ public class Juego {
         // Reemplazamos la palabra por guiones bajos y la guardamos en el StringBuilder
         progresoPalabra = new StringBuilder("_".repeat(palabra.length()));
 
+        //Menú para elegir una dificultad con un bucle para asegurar que se seleccione una opción correcta
         do {
             System.out.println("Elige una dificultad:");
             System.out.println();
@@ -80,6 +81,7 @@ public class Juego {
                 System.out.println("Por favor, elige una opción válida");
             }
 
+            // Se le cambia el valor a los intentos según la dificultad seleccionada
             switch (nivel) {
                 case 1 -> Juego.intentos = 8;
                 case 2 -> Juego.intentos = 6;
@@ -100,7 +102,7 @@ public class Juego {
             if (probarLetra(letra)) {
                 System.out.println("¡Correcto! " + progresoPalabra);
             } else {
-                System.out.println("Incorrecto. Intentos restantes: " + intentos);
+                System.out.println("Incorrecto. Intentos restantes: " + intentos + progresoPalabra);
             }
 
             System.out.println("Letras utilizadas: " + letrasUsadas);
