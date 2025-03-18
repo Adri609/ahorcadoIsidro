@@ -102,7 +102,7 @@ public class Juego {
             if (probarLetra(letra)) {
                 System.out.println("¡Correcto! " + progresoPalabra);
             } else {
-                System.out.println("Incorrecto. Intentos restantes: " + intentos + progresoPalabra);
+                System.out.println("Incorrecto. Intentos restantes: " + intentos + "\n" + progresoPalabra);
             }
 
             System.out.println("Letras utilizadas: " + letrasUsadas);
