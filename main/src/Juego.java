@@ -19,7 +19,7 @@ public class Juego {
     public static boolean probarLetra(char letra) {
         if (letrasUsadas.contains(letra)) { // Comprueba si la letra ya fue usada
             System.out.println("Ya has intentado esa letra.");
-            return false; 
+            return false;
         }
 
         // Se añade la letra utilizada al array
@@ -57,6 +57,9 @@ public class Juego {
             "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
             "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
         );
+
+        boolean rendirse = false;
+        int elegir;
 
         // Se selecciona una palabra aleatoria del array
         palabra = marcas.get((int) (Math.random() * marcas.size()));
@@ -106,6 +109,32 @@ public class Juego {
             }
 
             System.out.println("Letras utilizadas: " + letrasUsadas);
+            
+            do {
+                System.out.println("Te rindes?");
+                System.out.println("1- Si");
+                System.out.println("2- No");
+                elegir = read.nextInt();
+
+                switch (elegir) {
+                    case 1 -> {
+                        System.out.println("Te has rendido.");
+                        rendirse = true;
+                        intentos = 0;
+                    }
+                                       
+                    case 2 -> {
+                        rendirse = false;
+                        continue;
+                    }
+                    
+                    default -> {
+                        System.out.println("Opción incorrecta, por favor, elige 1 o 2");
+                    }
+                }
+
+            } while (elegir != 1 && elegir != 2);
+        
         }
 
         if (progresoPalabra.toString().equals(palabra)) {
