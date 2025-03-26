@@ -13,8 +13,82 @@ public class Juego {
     private static Scanner read = new Scanner(System.in);
     private static int nivel;
     private static ArrayList<String> marcas = new ArrayList<>();
+    private static boolean rendirse = true;
 
-    
+    // Constructor para el juego donde irán las palabras del arraylist
+    public Juego () {
+        // Añadimos palabras al ArrayList utilizando Collections para añadirlo todo a la vez y no poner 40 líneas de .add
+        Collections.addAll(marcas, 
+            "Abarth", "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti", 
+            "Buick", "Cadillac", "Changan", "Chevrolet", "Chrysler", "Citroën", "Cupra", "Dacia", 
+            "Daewoo", "Daihatsu", "Dodge", "DS Automobiles", "Ferrari", "Fiat", "Fisker", "Ford", 
+            "GAC", "Geely", "Genesis", "GMC", "GreatWall", "Haval", "Honda", "Hummer", "Hyundai", 
+            "Infiniti", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Koenigsegg", "Lada", "Lamborghini", 
+            "Lancia", "Land Rover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
+            "McLaren", "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Pagani", "Peugeot", 
+            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "Rolls Royce", "Rover", 
+            "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
+            "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
+        );
+    }
+
+    // Función para elegir jugadores
+    public void jugadores() {
+        int opcion;
+        do {
+            System.out.println("Elige el número de jugadores:");
+            System.out.println("1- 1 jugador");
+            System.out.println("2- 2 jugadores");
+
+            opcion = read.nextInt();
+            read.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1:
+                    // Se recoge la palabra aleatoria del array en minúsculas
+                    palabra = marcas.get((int) (Math.random() * marcas.size())).toLowerCase();
+                    break;
+
+                case 2:
+                    // Se pide al usuario que introduzca la palabra oculta
+                    System.out.println("Introduce la palabra oculta:");
+                    palabra = read.nextLine().toLowerCase();
+                    break;
+
+                default:
+                    System.out.println("Por favor, elige una opción válida");
+            }
+        } while (opcion < 1 || opcion > 2);
+    }
+
+    // Función para elegir una dificultad
+    public void seleccionarDificultad() {   
+        do {
+            System.out.println("Elige una dificultad:");
+            System.out.println("1- Fácil");
+            System.out.println("2- Normal");
+            System.out.println("3- Difícil");
+            System.out.print("Opción: ");
+            try {
+                nivel = Integer.parseInt(read.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Y la de elegir algo que exista te la sabes?");
+                continue;
+            }
+
+            if (nivel < 1 || nivel > 3) {
+                System.out.println("Por dios, elige una opción válida y deja de hacer el tonto...");
+            }
+        } while (nivel < 1 || nivel > 3);
+
+        intentos = switch (nivel) {
+            case 1 -> 8;
+            case 2 -> 6;
+            case 3 -> 3;
+            default -> 6;
+        };
+    }
+
     // Función para probar una letra
     public static boolean probarLetra(char letra) {
         if (letrasUsadas.contains(letra)) { // Comprueba si la letra ya fue usada
@@ -42,105 +116,53 @@ public class Juego {
         return aciertos;
     }
 
-    public static void main(String[] args) {
-    
-        // Añadimos palabras al ArrayList utilizando Collections para añadirlo todo a la vez y no poner 40 líneas de .add
-        Collections.addAll(marcas, 
-            "Abarth", "Acura", "Alfa Romeo", "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti", 
-            "Buick", "Cadillac", "Changan", "Chevrolet", "Chrysler", "Citroën", "Cupra", "Dacia", 
-            "Daewoo", "Daihatsu", "Dodge", "DS Automobiles", "Ferrari", "Fiat", "Fisker", "Ford", 
-            "GAC", "Geely", "Genesis", "GMC", "GreatWall", "Haval", "Honda", "Hummer", "Hyundai", 
-            "Infiniti", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Koenigsegg", "Lada", "Lamborghini", 
-            "Lancia", "Land Rover", "Lexus", "Lincoln", "Lotus", "Lucid", "Maserati", "Maybach", "Mazda", 
-            "McLaren", "Mercedes-Benz", "MG", "Mini", "Mitsubishi", "Nissan", "Opel", "Pagani", "Peugeot", 
-            "Polestar", "Porsche", "Proton", "RAM", "Renault", "Rezvani", "Rimac", "Rolls Royce", "Rover", 
-            "Saab", "SEAT", "Skoda", "Smart", "SsangYong", "Subaru", "Suzuki", "Tata", "Tesla", "Toyota", 
-            "Vauxhall", "Volkswagen", "Volvo", "Wiesmann", "Zotye"
-        );
+    // Función para iniciar la partida
+    public void partida () {
 
-        boolean rendirse = false;
-        int elegir;
+        jugadores(); // Llamo a la función para elegir el número de jugadores
+        seleccionarDificultad(); // Llamo a la función para elegir la dificultad
 
-        // Se selecciona una palabra aleatoria del array
-        palabra = marcas.get((int) (Math.random() * marcas.size()));
+        progresoPalabra = new StringBuilder();
+        for (char c : palabra.toCharArray()) {
+            progresoPalabra.append(c == ' ' ? ' ' : '_');
+        }
 
-        // Paso la palabra a minúscula
-        palabra = palabra.toLowerCase();
-
-        // Reemplazamos la palabra por guiones bajos y la guardamos en el StringBuilder
-        progresoPalabra = new StringBuilder("_".repeat(palabra.length()));
-
-        //Menú para elegir una dificultad con un bucle para asegurar que se seleccione una opción correcta
-        do {
-            System.out.println("Elige una dificultad:");
-            System.out.println();
-            System.out.println("1- Fácil");
-            System.out.println("2- Normal");
-            System.out.println("3- Difícil");
-            System.out.print("Opción: ");
-            nivel = read.nextInt();
-
-            if (nivel > 1 || nivel < 3) {
-                System.out.println("Por favor, elige una opción válida");
-            }
-
-            // Se le cambia el valor a los intentos según la dificultad seleccionada
-            switch (nivel) {
-                case 1 -> Juego.intentos = 8;
-                case 2 -> Juego.intentos = 6;
-                case 3 -> Juego.intentos = 3;
-            }
-
-        } while (nivel < 1 || nivel > 3);
-
-        // Mostramos el progreso inicial
         System.out.println("Palabra a adivinar: " + progresoPalabra);
         System.out.println("Una pista: Marca de coches.");
 
         // Bucle del juego
         while (intentos > 0 && progresoPalabra.toString().contains("_")) {
             System.out.print("Introduce una letra: ");
-            char letra = read.next().toLowerCase().charAt(0);
+            String entrada = read.next().toLowerCase();
             
+            // Compruebo si se ha introducido alguna letra
+            if (entrada.isEmpty()) {
+                System.out.println("No ingresaste ninguna letra. Inténtalo de nuevo.");
+                continue;
+            }
+
+            char letra = entrada.charAt(0);
+
             if (probarLetra(letra)) {
                 System.out.println("¡Correcto! " + progresoPalabra);
             } else {
-                System.out.println("Incorrecto. Intentos restantes: " + intentos + "\n" + progresoPalabra);
+                System.out.println("Incorrecto. Intentos restantes: " + intentos);
             }
 
             System.out.println("Letras utilizadas: " + letrasUsadas);
-            
-            do {
-                System.out.println("Te rindes?");
-                System.out.println("1- Si");
-                System.out.println("2- No");
-                elegir = read.nextInt();
-
-                switch (elegir) {
-                    case 1 -> {
-                        System.out.println("Te has rendido.");
-                        rendirse = true;
-                        intentos = 0;
-                    }
-                                       
-                    case 2 -> {
-                        rendirse = false;
-                        continue;
-                    }
-                    
-                    default -> {
-                        System.out.println("Opción incorrecta, por favor, elige 1 o 2");
-                    }
-                }
-
-            } while (elegir != 1 && elegir != 2);
-        
         }
 
         if (progresoPalabra.toString().equals(palabra)) {
-            System.out.println("Felicidades, has salvado al muñeco, tu palabra era: " + palabra);
+            System.out.println("Has salvado a Billy, la palabra era: " + palabra);
         } else {
-            System.out.println("El muñeco ha muerto por tu culpa, la palabra era: " + palabra);
+            System.out.println("Has matado a Billy, la palabra era: " + palabra);
         }
+    }
+
+    public static void main(String[] args) {
+    
+        Juego juego = new Juego();
+        juego.partida();
+
     }
 }
