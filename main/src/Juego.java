@@ -18,7 +18,6 @@ public class Juego {
     private static Scanner read = new Scanner(System.in);
     private static int nivel;
     private static ArrayList<String> marcas = new ArrayList<>();
-    private static boolean rendirse = true;
 
     // Constructor para el juego donde irán las palabras del arraylist
     public Juego () {
@@ -58,6 +57,7 @@ public class Juego {
                     JPasswordField passwordField = new JPasswordField();
                     JFrame frame = new JFrame("Introducir palabra oculta");
                     frame.setAlwaysOnTop(true); // Lo hace visible por sobre el IDE.
+
                     int option = JOptionPane.showConfirmDialog(frame, passwordField, "Introduce la palabra oculta", JOptionPane.OK_CANCEL_OPTION);
 
     
@@ -147,13 +147,18 @@ public class Juego {
 
         // Bucle del juego
         while (intentos > 0 && progresoPalabra.toString().contains("_")) {
-            System.out.print("Introduce una letra: ");
+            System.out.print("Introduce una letra (o escribe 'rendirse' para abandonar): ");
             String entrada = read.next().toLowerCase();
-            
+
+            if (entrada.equals("rendirse")) {
+            System.out.println("Cobarde!, la palabra era: " + palabra);
+            return; // Se termina la partida
+            }
+
             // Compruebo si se ha introducido alguna letra
             if (entrada.isEmpty()) {
-                System.out.println("No ingresaste ninguna letra. Inténtalo de nuevo.");
-                continue;
+                System.out.println("No has ingresado ninguna letra, prueba otra vez:");
+            continue;
             }
 
             char letra = entrada.charAt(0);
@@ -163,14 +168,15 @@ public class Juego {
             } else {
                 System.out.println("Incorrecto. Intentos restantes: " + intentos);
             }
-
-            System.out.println("Letras utilizadas: " + letrasUsadas);
         }
 
-        if (progresoPalabra.toString().equals(palabra)) {
-            System.out.println("Has salvado a Billy, la palabra era: " + palabra);
+        // Muestro un mensaje de victoria o derrota al finalizar la partida
+        if (!progresoPalabra.toString().contains("_")) {
+
+        System.out.println("Felicidades, has salvado a Billy, la palabra era: " + palabra);
+
         } else {
-            System.out.println("Has matado a Billy, la palabra era: " + palabra);
+            System.out.println("Desgraciado, has matado a Billy! la palabra era: " + palabra);
         }
     }
 
@@ -178,6 +184,6 @@ public class Juego {
     
         Juego juego = new Juego();
         juego.partida();
-
+        
     }
 }
