@@ -1,4 +1,9 @@
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,10 +55,20 @@ public class Juego {
                     break;
 
                 case 2:
-                    // Se pide al usuario que introduzca la palabra oculta
-                    System.out.println("Introduce la palabra oculta:");
-                    palabra = read.nextLine().toLowerCase();
-                    break;
+                    JPasswordField passwordField = new JPasswordField();
+                    JFrame frame = new JFrame("Introducir palabra oculta");
+                    frame.setAlwaysOnTop(true); // Lo hace visible por sobre el IDE.
+                    int option = JOptionPane.showConfirmDialog(frame, passwordField, "Introduce la palabra oculta", JOptionPane.OK_CANCEL_OPTION);
+
+    
+                    if (option == JOptionPane.OK_OPTION) {
+                    palabra = new String(passwordField.getPassword()).toLowerCase();
+                    } else {
+                    System.out.println("No se ha introducido ninguna palabra. Volviendo al menú.");
+                    opcion = 0; // Esto fuerza la repetición del bucle para elegir de nuevo.
+                    }
+
+                break;
 
                 default:
                     System.out.println("Por favor, elige una opción válida");
