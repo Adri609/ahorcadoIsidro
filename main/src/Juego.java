@@ -180,9 +180,21 @@ public class Juego {
     }
 
     public static void main(String[] args) {
-    
-        Juego juego = new Juego();
-        juego.partida();
+        Scanner read = new Scanner(System.in);
+        String respuesta;
         
+        do {
+            Juego juego = new Juego(); // Crea una nueva instancia del juego
+            juego.partida(); // Se reinicia la partida
+            letrasUsadas.clear(); // Vacío el HashSet que contiene las letras usadas
+            progresoPalabra = new StringBuilder(); // Reinicio el progreso de la palabra
+    
+            System.out.println("¿Quieres volver a jugar? (s/n)");
+            // Recogemos la respuesta, le quitamos los posibles espacios y la pasamos a minúscula
+            respuesta = read.nextLine().toLowerCase().trim();
+    
+        } while (respuesta.equals("s")); // Si respondemos "s" se rinicia el juego.
+    
+        System.out.println("Allá tu, tanta paz dejes como prisa lleves, ya volveás.");
     }
 }
