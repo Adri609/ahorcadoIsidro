@@ -143,7 +143,6 @@ public class Juego {
         }
 
         System.out.println("Palabra a adivinar: " + progresoPalabra);
-        System.out.println("Una pista: Marca de coches.");
 
         // Bucle del juego
         while (intentos > 0 && progresoPalabra.toString().contains("_")) {
